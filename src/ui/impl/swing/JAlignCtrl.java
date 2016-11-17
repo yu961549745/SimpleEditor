@@ -9,9 +9,11 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ui.IAlign;
+import doc.IAlign;
 
-public class AlignController {
+public class JAlignCtrl {
+	private JDocCtrl docCtrl;
+
 	private JPanel panel = new JPanel();
 	private JButton LButton = new ImgButton("L.gif");
 	private JButton CButton = new ImgButton("C.gif");
@@ -21,7 +23,9 @@ public class AlignController {
 
 	private AlignListener listener = new AlignListener();
 
-	public AlignController() {
+	public JAlignCtrl(JDocCtrl docCtrl) {
+		this.docCtrl = docCtrl;
+
 		btnMap.put(IAlign.LEFT, LButton);
 		btnMap.put(IAlign.CENTER, CButton);
 		btnMap.put(IAlign.RIGHT, RButton);
@@ -68,6 +72,7 @@ public class AlignController {
 			} else if (o.equals(RButton)) {
 				setAlign(IAlign.RIGHT);
 			}
+			docCtrl.setAlign(align);
 		}
 	}
 }

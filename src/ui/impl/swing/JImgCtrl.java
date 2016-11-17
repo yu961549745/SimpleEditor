@@ -1,7 +1,6 @@
 package ui.impl.swing;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,13 +12,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-public class ImgInsertController implements ActionListener {
-	private Frame parent;
+import ui.ImgImpl;
+
+public class JImgCtrl implements ActionListener {
+	private JDocCtrl docCtrl;
 	private JButton button = new JButton("插入图片");
 	private JFileChooser chooser = new JFileChooser();
 
-	public ImgInsertController(Frame parentFrame) {
-		parent = parentFrame;
+	public JImgCtrl(JDocCtrl docCtrl) {
+		this.docCtrl = docCtrl;
 		button.addActionListener(this);
 		chooser.setFileFilter(new FileFilter() {
 
@@ -37,11 +38,13 @@ public class ImgInsertController implements ActionListener {
 		});
 	}
 
-	public ImageIcon getImage() {
-		int returnVal = chooser.showOpenDialog(parent);
+	public ImgImpl getImage() {
+		int returnVal = chooser.showOpenDialog(docCtrl.getComponent());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
-				return new ImageIcon(ImageIO.read(chooser.getSelectedFile()));
+				ImageIcon icon = new ImageIcon(ImageIO.read(chooser
+						.getSelectedFile()));
+				return new JImgImpl(icon);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "无法读取 "
 						+ chooser.getSelectedFile().getName());
@@ -52,7 +55,7 @@ public class ImgInsertController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		getImage();
+		docCtrl.insert(getImage());
 	}
 
 	public Component getComponent() {

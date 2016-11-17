@@ -17,14 +17,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.IFont;
+import doc.IFont;
 import env.FontProviderFactory;
 
-public class FontController {
+public class JFontCtrl {
+	private JDocCtrl docCtrl;
+
 	private JPanel panel = new JPanel();
 
 	private JLabel fontLabel = new JLabel("字体");
-	private JComboBox<String> fonts = new JComboBox<String>();
+	private JComboBox<String> fonts = new JAutoCompleteComboBox<String>();
 
 	private JLabel sizeLabel = new JLabel("大小");
 	private JTextField size = new JTextField(3);
@@ -40,7 +42,8 @@ public class FontController {
 
 	private IFont font = new IFont();
 
-	public FontController() {
+	public JFontCtrl(JDocCtrl docCtrl) {
+		this.docCtrl = docCtrl;
 
 		String[] fontNames = FontProviderFactory.getFontNameProvider()
 				.getAllFonts();
@@ -54,6 +57,8 @@ public class FontController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				font.setName((String) fonts.getSelectedItem());
+
+				update();
 			}
 		});
 
@@ -63,6 +68,7 @@ public class FontController {
 			@Override
 			public void focusLost(FocusEvent e) {
 				font.setSize(Integer.valueOf(size.getText()));
+				update();
 			}
 		});
 
@@ -73,6 +79,8 @@ public class FontController {
 			public void mouseClicked(MouseEvent e) {
 				setColor(JColorChooser.showDialog(panel, "选择颜色",
 						new Color(font.getColor())).getRGB());
+
+				update();
 			}
 		});
 
@@ -108,6 +116,8 @@ public class FontController {
 			ImgButton btn = (ImgButton) e.getSource();
 			btn.changeState();
 			updateFontStyle();
+
+			update();
 		}
 
 	}
@@ -133,6 +143,11 @@ public class FontController {
 
 	public IFont getFont() {
 		return font;
+	}
+
+	public void update() {
+		System.out.println(font);
+		docCtrl.setFont(font);
 	}
 
 }

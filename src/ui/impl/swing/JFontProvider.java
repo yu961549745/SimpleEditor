@@ -1,4 +1,4 @@
-package impl.swing;
+package ui.impl.swing;
 
 import java.awt.GraphicsEnvironment;
 

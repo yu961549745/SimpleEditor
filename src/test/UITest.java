@@ -2,31 +2,29 @@ package test;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.UIManager;
-import javax.swing.text.Caret;
 
-import ui.impl.swing.AlignController;
-import ui.impl.swing.FontController;
-import ui.impl.swing.ImgInsertController;
+import ui.impl.swing.JAlignCtrl;
+import ui.impl.swing.JDocCtrl;
+import ui.impl.swing.JFontCtrl;
+import ui.impl.swing.JImgCtrl;
 
 public class UITest {
 	private JFrame frame = new JFrame("简单编辑器");
 	private JPanel toolbar = new JPanel();
 
-	private FontController font = new FontController();
-	private AlignController align = new AlignController();
-	private ImgInsertController img = new ImgInsertController(frame);
+	private JDocCtrl doc = new JDocCtrl();
 
-	private JTextPane textPane = new JTextPane();
-	private JScrollPane scrollPane = new JScrollPane(textPane);
+	private JFontCtrl font = new JFontCtrl(doc);
+	private JAlignCtrl align = new JAlignCtrl(doc);
+
+	private JScrollPane scrollPane = new JScrollPane(doc.getComponent());
+
+	private JImgCtrl img = new JImgCtrl(doc);
 
 	public UITest() {
 		frame.setLayout(new BorderLayout());
@@ -35,17 +33,6 @@ public class UITest {
 		toolbar.add(font.getComponent());
 		toolbar.add(align.getComponent());
 		toolbar.add(img.getComponent());
-
-		JButton btn = new JButton("测试");
-		toolbar.add(btn);
-		btn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Caret c = textPane.getCaret();
-				System.out.println(c.getDot() + " " + c.getMark());
-			}
-		});
 
 		frame.add(toolbar, BorderLayout.NORTH);
 		frame.add(scrollPane, BorderLayout.CENTER);
