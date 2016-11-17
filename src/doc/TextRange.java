@@ -25,4 +25,9 @@ public class TextRange {
 		this.end = end;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("[%d,%d)", start, end);
+	}
+
 }

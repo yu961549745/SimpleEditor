@@ -1,8 +1,7 @@
 package ui.impl.swing;
 
+import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 import javax.swing.JTextPane;
 import javax.swing.text.Caret;
@@ -26,12 +25,8 @@ public class JDocCtrl implements IDocCtrl {
 		docImg.setImg(img);
 		docImg.setPos(textPane.getCaretPosition());
 
-		textPane.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				System.out.println(textPane.getCaret());
-			}
-		});
+		textPane.getCaret().setVisible(true);
+		textPane.getCaret().setSelectionVisible(true);
 		return docImg;
 	}
 
@@ -44,10 +39,11 @@ public class JDocCtrl implements IDocCtrl {
 		SimpleAttributeSet attr = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(attr, font.getName());
 		StyleConstants.setFontSize(attr, font.getSize());
+		StyleConstants.setForeground(attr, new Color(font.getColor()));
 		StyleConstants.setBold(attr, font.isBold());
 		StyleConstants.setItalic(attr, font.isItalic());
 		StyleConstants.setUnderline(attr, font.isUnder());
-		textPane.setCharacterAttributes(attr, true);
+		textPane.setCharacterAttributes(attr, false);
 	}
 
 	public void setAlign(IAlign align) {
@@ -61,7 +57,7 @@ public class JDocCtrl implements IDocCtrl {
 			key = StyleConstants.ALIGN_RIGHT;
 		}
 		StyleConstants.setAlignment(attr, key);
-		textPane.setParagraphAttributes(attr, true);
+		textPane.setParagraphAttributes(attr, false);
 	}
 
 	public Component getComponent() {
