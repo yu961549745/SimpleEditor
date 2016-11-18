@@ -26,6 +26,7 @@ public class JDocCtrl extends AbsDocCtrl {
 
 	public JDocCtrl() {
 		textPane.setPreferredSize(new Dimension(500, 500));
+		textPane.getCaret().setVisible(true);
 
 		textPane.addKeyListener(new KeyAdapter() {
 			@Override

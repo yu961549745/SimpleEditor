@@ -1,7 +1,6 @@
 package ui.impl.swing;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +34,7 @@ public class JFontCtrl extends AbsFontCtrl {
 	private ImgButton uBtn = new ImgButton("U.gif");
 
 	private StyleListener styleListener = new StyleListener();
+	private int actionFlag = 0;
 
 	public JFontCtrl() {
 
@@ -48,6 +48,10 @@ public class JFontCtrl extends AbsFontCtrl {
 		fonts.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (actionFlag > 0) {
+					actionFlag--;
+					return;
+				}
 				font.setName((String) fonts.getSelectedItem());
 				active();
 			}
@@ -61,6 +65,10 @@ public class JFontCtrl extends AbsFontCtrl {
 		size.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (actionFlag > 0) {
+					actionFlag--;
+					return;
+				}
 				font.setSize(Integer.valueOf((String) size.getSelectedItem()));
 				active();
 			}
@@ -90,6 +98,7 @@ public class JFontCtrl extends AbsFontCtrl {
 
 	@Override
 	public void setFont(IFont f) {
+		actionFlag = 2;// 抑制两次应为设置字体而产生的事件
 		fonts.setSelectedItem(f.getName());
 		size.setSelectedItem(String.valueOf(f.getSize()));
 		color.setBackground(new Color(f.getColor()));
@@ -105,7 +114,9 @@ public class JFontCtrl extends AbsFontCtrl {
 		public void actionPerformed(ActionEvent e) {
 			ImgButton btn = (ImgButton) e.getSource();
 			btn.changeState();
-			updateFontStyle();
+			font.setBold(bBtn.isSelected());
+			font.setItalic(iBtn.isSelected());
+			font.setUnderline(uBtn.isSelected());
 			active();
 		}
 
@@ -114,16 +125,6 @@ public class JFontCtrl extends AbsFontCtrl {
 	private void setColor(int c) {
 		font.setColor(c);
 		color.setBackground(new Color(c));
-	}
-
-	private void updateFontStyle() {
-		font.setBold(uBtn.isSelected());
-		font.setItalic(iBtn.isSelected());
-		font.setUnderline(uBtn.isSelected());
-	}
-
-	public Component getComponent() {
-		return panel;
 	}
 
 	@Override
