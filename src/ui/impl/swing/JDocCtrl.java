@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
 import javax.swing.text.SimpleAttributeSet;
@@ -35,6 +37,13 @@ public class JDocCtrl extends AbsDocCtrl {
 				}
 			}
 		});
+
+		textPane.addCaretListener(new CaretListener() {
+			@Override
+			public void caretUpdate(CaretEvent e) {
+				updateStyle();
+			}
+		});
 	}
 
 	public void setFont(IFont font) {
@@ -45,7 +54,7 @@ public class JDocCtrl extends AbsDocCtrl {
 		StyleConstants.setBold(attr, font.isBold());
 		StyleConstants.setItalic(attr, font.isItalic());
 		StyleConstants.setUnderline(attr, font.isUnderline());
-		textPane.setCharacterAttributes(attr, false);
+		textPane.setCharacterAttributes(attr, true);
 		textPane.requestFocus();
 	}
 
@@ -60,7 +69,7 @@ public class JDocCtrl extends AbsDocCtrl {
 			key = StyleConstants.ALIGN_RIGHT;
 		}
 		StyleConstants.setAlignment(attr, key);
-		textPane.setParagraphAttributes(attr, false);
+		textPane.setParagraphAttributes(attr, true);
 		textPane.requestFocus();
 	}
 

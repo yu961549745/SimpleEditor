@@ -22,6 +22,7 @@ public class JAlignCtrl extends AbsAlignCtrl {
 	private Map<IAlign, JButton> btnMap = new HashMap<IAlign, JButton>();
 
 	private AlignListener listener = new AlignListener();
+	private IAlign align = IAlign.LEFT;
 
 	public JAlignCtrl() {
 
@@ -37,11 +38,8 @@ public class JAlignCtrl extends AbsAlignCtrl {
 			btnMap.get(a).addActionListener(listener);
 		}
 
-		setAlign(IAlign.LEFT);
-
+		setAlign(align);
 	}
-
-	private IAlign align = IAlign.LEFT;
 
 	public IAlign getAlign() {
 		return align;
@@ -53,6 +51,11 @@ public class JAlignCtrl extends AbsAlignCtrl {
 			btnMap.get(a).setSelected(false);
 		}
 		btnMap.get(align).setSelected(true);
+	}
+
+	@Override
+	public Object getImpl() {
+		return panel;
 	}
 
 	private class AlignListener implements ActionListener {
@@ -69,10 +72,5 @@ public class JAlignCtrl extends AbsAlignCtrl {
 			}
 			active();
 		}
-	}
-
-	@Override
-	public Object getImpl() {
-		return panel;
 	}
 }

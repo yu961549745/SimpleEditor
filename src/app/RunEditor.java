@@ -2,8 +2,7 @@ package app;
 
 import javax.swing.UIManager;
 
-import ui.abs.TextEditor;
-import ui.impl.swing.JEditFrame;
+import ui.TextEditor;
 
 public class RunEditor {
 	public static void main(String[] args) {
@@ -12,6 +11,6 @@ public class RunEditor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		new TextEditor(new JEditFrame());
+		new TextEditor();
 	}
 }

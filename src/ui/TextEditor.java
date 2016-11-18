@@ -1,10 +1,4 @@
-package ui.abs;
-
-import ui.IAlignCtrl;
-import ui.IDocCtrl;
-import ui.IFontCtrl;
-import ui.IFrame;
-import ui.IImgCtrl;
+package ui;
 
 public class TextEditor {
 	private IFrame frame;
@@ -13,8 +7,8 @@ public class TextEditor {
 	private IAlignCtrl alignCtrl;
 	private IImgCtrl imgCtrl;
 
-	public TextEditor(IFrame frame) {
-		this.frame = frame;
+	public TextEditor() {
+		this.frame = UIFactory.getFrame();
 		init();
 	}
 

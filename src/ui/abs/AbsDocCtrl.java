@@ -19,6 +19,7 @@ public abstract class AbsDocCtrl implements IDocCtrl {
 	@Override
 	public void setFontCtrl(IFontCtrl fontCtrl) {
 		this.fontCtrl = fontCtrl;
+		setFont(fontCtrl.getFont());
 	}
 
 	@Override
@@ -29,6 +30,7 @@ public abstract class AbsDocCtrl implements IDocCtrl {
 	@Override
 	public void setAlignCtrl(IAlignCtrl alignCtrl) {
 		this.alignCtrl = alignCtrl;
+		setAlign(alignCtrl.getAlign());
 	}
 
 	@Override
@@ -49,6 +51,13 @@ public abstract class AbsDocCtrl implements IDocCtrl {
 	@Override
 	public void undo() {
 		CmdCtrl.getInstance().undo();
+	}
+
+	public void updateStyle() {
+		if (fontCtrl != null && alignCtrl != null) {
+			fontCtrl.setFont(getFont());
+			alignCtrl.setAlign(getAlign());
+		}
 	}
 
 }
