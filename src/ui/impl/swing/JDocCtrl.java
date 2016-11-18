@@ -8,12 +8,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Caret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import doc.IAlign;
 import doc.IFont;
 import doc.Img;
+import doc.TextRange;
 import ui.abs.AbsDocCtrl;
 
 public class JDocCtrl extends AbsDocCtrl {
@@ -44,6 +46,7 @@ public class JDocCtrl extends AbsDocCtrl {
 		StyleConstants.setItalic(attr, font.isItalic());
 		StyleConstants.setUnderline(attr, font.isUnderline());
 		textPane.setCharacterAttributes(attr, false);
+		textPane.requestFocus();
 	}
 
 	public void setAlign(IAlign align) {
@@ -58,6 +61,7 @@ public class JDocCtrl extends AbsDocCtrl {
 		}
 		StyleConstants.setAlignment(attr, key);
 		textPane.setParagraphAttributes(attr, false);
+		textPane.requestFocus();
 	}
 
 	public IAlign getAlign() {
@@ -131,6 +135,20 @@ public class JDocCtrl extends AbsDocCtrl {
 	@Override
 	public Object getImpl() {
 		return scrollPane;
+	}
+
+	@Override
+	public TextRange getSelected() {
+		Caret c = textPane.getCaret();
+		int mark = c.getMark();
+		int dot = c.getDot();
+		return new TextRange(mark, dot);
+	}
+
+	@Override
+	public void setSelected(TextRange range) {
+		textPane.getCaret().setDot(range.getStart());
+		textPane.getCaret().moveDot(range.getEnd());
 	}
 
 }

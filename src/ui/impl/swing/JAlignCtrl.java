@@ -8,12 +8,11 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ui.IAlignCtrl;
-import ui.abs.AbsDocAttrCtrl;
+import ui.abs.AbsAlignCtrl;
 import ui.impl.swing.comp.ImgButton;
 import doc.IAlign;
 
-public class JAlignCtrl extends AbsDocAttrCtrl implements IAlignCtrl {
+public class JAlignCtrl extends AbsAlignCtrl {
 
 	private JPanel panel = new JPanel();
 	private JButton LButton = new ImgButton("L.gif");
@@ -68,7 +67,7 @@ public class JAlignCtrl extends AbsDocAttrCtrl implements IAlignCtrl {
 			} else if (o.equals(RButton)) {
 				setAlign(IAlign.RIGHT);
 			}
-			docCtrl.setAlign(align);
+			active();
 		}
 	}
 

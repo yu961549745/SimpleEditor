@@ -7,12 +7,13 @@ import ui.IFontCtrl;
 
 public abstract class AbsFontCtrl extends AbsDocAttrCtrl implements IFontCtrl {
 	public void active() {
-		if(getDocCtrl()==null){
+		if (getDocCtrl() == null) {
 			return;
 		}
 		IFont src = getDocCtrl().getFont();
 		IFont dst = getFont();
-		FontCmd cmd = new FontCmd(src, dst, getDocCtrl());
+		FontCmd cmd = new FontCmd(src, dst, getDocCtrl().getSelected(),
+				getDocCtrl());
 		CmdCtrl.getInstance().exec(cmd);
 	}
 }
