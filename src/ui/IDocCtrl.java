@@ -27,9 +27,9 @@ public interface IDocCtrl extends IComp {
 	public IAlign getAlign();
 
 	public void setAlign(IAlign align);
-	
+
 	public TextRange getSelected();
-	
+
 	public void setSelected(TextRange range);
 
 	// 内容修改
@@ -42,4 +42,6 @@ public interface IDocCtrl extends IComp {
 	public void undo();
 
 	void updateStyle();
+
+	public String getTextString();
 }

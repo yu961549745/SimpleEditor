@@ -1,6 +1,6 @@
 package ui;
 
-public interface IFrame  extends IComp{
+public interface IFrame extends IComp {
 	public IDocCtrl getDocCtrl();
 
 	public IFontCtrl getFontCtrl();
@@ -8,4 +8,6 @@ public interface IFrame  extends IComp{
 	public IAlignCtrl getAlignCtrl();
 
 	public IImgCtrl getImgCtrl();
+
+	public IUtils getIUtils();
 }

@@ -48,7 +48,7 @@ public class JImgCtrl extends AbsImgCtrl {
 	protected File getSelectedFile() {
 		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			chooser.getSelectedFile();
+			return chooser.getSelectedFile();
 		}
 		return null;
 	}

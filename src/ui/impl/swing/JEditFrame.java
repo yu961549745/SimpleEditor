@@ -13,12 +13,14 @@ import ui.IDocCtrl;
 import ui.IFontCtrl;
 import ui.IFrame;
 import ui.IImgCtrl;
+import ui.IUtils;
 
 public class JEditFrame implements IFrame {
 	private IFontCtrl fontCtrl = new JFontCtrl();
 	private IAlignCtrl alignCtrl = new JAlignCtrl();
 	private IImgCtrl imgCtrl = new JImgCtrl();
 	private IDocCtrl docCtrl = new JDocCtrl();
+	private IUtils utils = new JUtils();
 
 	@Override
 	public IFontCtrl getFontCtrl() {
@@ -54,6 +56,7 @@ public class JEditFrame implements IFrame {
 		toolbar.add((Component) getFontCtrl().getImpl());
 		toolbar.add((Component) getAlignCtrl().getImpl());
 		toolbar.add((Component) getImgCtrl().getImpl());
+		toolbar.add((Component) getIUtils().getImpl());
 
 		frame.add(toolbar, BorderLayout.NORTH);
 		frame.add((Component) getDocCtrl().getImpl(), BorderLayout.CENTER);
@@ -67,6 +70,11 @@ public class JEditFrame implements IFrame {
 	@Override
 	public Object getImpl() {
 		return frame;
+	}
+
+	@Override
+	public IUtils getIUtils() {
+		return utils;
 	}
 
 }

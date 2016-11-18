@@ -160,4 +160,9 @@ public class JDocCtrl extends AbsDocCtrl {
 		textPane.getCaret().moveDot(range.getEnd());
 	}
 
+	@Override
+	public String getTextString() {
+		return textPane.getText();
+	}
+
 }

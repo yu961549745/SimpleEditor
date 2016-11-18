@@ -6,6 +6,7 @@ public class TextEditor {
 	private IFontCtrl fontCtrl;
 	private IAlignCtrl alignCtrl;
 	private IImgCtrl imgCtrl;
+	private IUtils utils;
 
 	public TextEditor() {
 		this.frame = UIFactory.getFrame();
@@ -17,6 +18,7 @@ public class TextEditor {
 		fontCtrl = frame.getFontCtrl();
 		alignCtrl = frame.getAlignCtrl();
 		imgCtrl = frame.getImgCtrl();
+		utils = frame.getIUtils();
 
 		docCtrl.setFontCtrl(fontCtrl);
 		docCtrl.setAlignCtrl(alignCtrl);
@@ -25,6 +27,7 @@ public class TextEditor {
 		fontCtrl.setDocCtrl(docCtrl);
 		alignCtrl.setDocCtrl(docCtrl);
 		imgCtrl.setDocCtrl(docCtrl);
+		utils.setDocCtrl(docCtrl);
 	}
 
 }
