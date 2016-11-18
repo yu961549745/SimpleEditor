@@ -22,7 +22,6 @@ public class JAlignCtrl extends AbsAlignCtrl {
 	private Map<IAlign, JButton> btnMap = new HashMap<IAlign, JButton>();
 
 	private AlignListener listener = new AlignListener();
-	private IAlign align = IAlign.LEFT;
 
 	public JAlignCtrl() {
 
@@ -41,12 +40,9 @@ public class JAlignCtrl extends AbsAlignCtrl {
 		setAlign(align);
 	}
 
-	public IAlign getAlign() {
-		return align;
-	}
-
+	@Override
 	public void setAlign(IAlign align) {
-		this.align = align;
+		super.setAlign(align);
 		for (IAlign a : btnMap.keySet()) {
 			btnMap.get(a).setSelected(false);
 		}

@@ -6,6 +6,8 @@ import doc.IFont;
 import ui.IFontCtrl;
 
 public abstract class AbsFontCtrl extends AbsDocAttrCtrl implements IFontCtrl {
+	protected IFont font = new IFont();
+
 	@Override
 	public void active() {
 		if (getDocCtrl() == null) {
@@ -17,4 +19,15 @@ public abstract class AbsFontCtrl extends AbsDocAttrCtrl implements IFontCtrl {
 				getDocCtrl());
 		CmdCtrl.getInstance().exec(cmd);
 	}
+
+	@Override
+	public IFont getFont() {
+		return font;
+	}
+
+	@Override
+	public void setFont(IFont font) {
+		this.font = font;
+	}
+
 }

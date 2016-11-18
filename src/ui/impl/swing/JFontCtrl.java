@@ -36,8 +36,6 @@ public class JFontCtrl extends AbsFontCtrl {
 
 	private StyleListener styleListener = new StyleListener();
 
-	private IFont font = new IFont();
-
 	public JFontCtrl() {
 
 		String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -90,6 +88,7 @@ public class JFontCtrl extends AbsFontCtrl {
 		setFont(font);
 	}
 
+	@Override
 	public void setFont(IFont f) {
 		fonts.setSelectedItem(f.getName());
 		size.setSelectedItem(String.valueOf(f.getSize()));
@@ -97,7 +96,7 @@ public class JFontCtrl extends AbsFontCtrl {
 		bBtn.setSelected(f.isBold());
 		iBtn.setSelected(f.isItalic());
 		uBtn.setSelected(f.isUnderline());
-		font = f;
+		super.setFont(f);
 	}
 
 	private class StyleListener implements ActionListener {
@@ -125,10 +124,6 @@ public class JFontCtrl extends AbsFontCtrl {
 
 	public Component getComponent() {
 		return panel;
-	}
-
-	public IFont getFont() {
-		return font;
 	}
 
 	@Override
