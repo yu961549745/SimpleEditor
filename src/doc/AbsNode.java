@@ -16,11 +16,4 @@ public abstract class AbsNode implements DocNode {
 		return childs;
 	}
 
-	@Override
-	public void acept(DocVisitor visitor) {
-		visitor.visit(this);
-		for (DocNode node : childs) {
-			visitor.visit(node);
-		}
-	}
 }

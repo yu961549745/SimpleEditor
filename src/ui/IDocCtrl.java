@@ -4,6 +4,7 @@ import doc.IAlign;
 import doc.IFont;
 import doc.Img;
 import doc.TextRange;
+import doc_visitors.DocVisitor;
 
 public interface IDocCtrl extends IComp {
 	// 组件关联设置
@@ -44,4 +45,6 @@ public interface IDocCtrl extends IComp {
 	void updateStyle();
 
 	public String getTextString();
+
+	public void acept(DocVisitor visitor);
 }

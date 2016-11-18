@@ -1,6 +1,7 @@
 package ui.abs;
 
 import cmd.CmdCtrl;
+import doc_visitors.DocVisitor;
 import ui.IAlignCtrl;
 import ui.IDocCtrl;
 import ui.IFontCtrl;
@@ -59,6 +60,11 @@ public abstract class AbsDocCtrl implements IDocCtrl {
 			fontCtrl.setFont(getFont());
 			alignCtrl.setAlign(getAlign());
 		}
+	}
+
+	@Override
+	public void acept(DocVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

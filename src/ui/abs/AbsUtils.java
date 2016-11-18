@@ -1,10 +1,6 @@
 package ui.abs;
 
-import java.util.List;
-
-import doc.IFont;
-import doc.TextRange;
-import analyze.SpellChecker;
+import doc_visitors.SpellChecker;
 import ui.IUtils;
 
 public abstract class AbsUtils extends AbsDocAttrCtrl implements IUtils {
@@ -12,17 +8,6 @@ public abstract class AbsUtils extends AbsDocAttrCtrl implements IUtils {
 
 	@Override
 	public void spellCheck() {
-		List<TextRange> ranges = spellChecker.check(getDocCtrl()
-				.getTextString().replace(System.getProperty("line.separator"),
-						"\n"));
-		TextRange oldRange = docCtrl.getSelected();
-		for (TextRange r : ranges) {
-			docCtrl.setSelected(r);
-			IFont f = docCtrl.getFont();
-			f.setColor(0xFFFF0000);
-			f.setUnderline(true);
-			docCtrl.setFont(f);
-		}
-		docCtrl.setSelected(oldRange);
+		getDocCtrl().acept(spellChecker);
 	}
 }

@@ -163,7 +163,8 @@ public class JDocCtrl extends AbsDocCtrl {
 
 	@Override
 	public String getTextString() {
-		return textPane.getText();
+		return textPane.getText().replace(System.getProperty("line.separator"),
+				"\n");
 	}
 
 }
