@@ -40,4 +40,6 @@ public interface IDocCtrl extends IComp {
 	public void redo();
 
 	public void undo();
+
+	void updateStyle();
 }

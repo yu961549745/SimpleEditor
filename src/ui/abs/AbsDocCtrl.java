@@ -53,6 +53,7 @@ public abstract class AbsDocCtrl implements IDocCtrl {
 		CmdCtrl.getInstance().undo();
 	}
 
+	@Override
 	public void updateStyle() {
 		if (fontCtrl != null && alignCtrl != null) {
 			fontCtrl.setFont(getFont());

@@ -5,6 +5,7 @@ import cmd.CmdCtrl;
 import ui.IAlignCtrl;
 
 public abstract class AbsAlignCtrl extends AbsDocAttrCtrl implements IAlignCtrl {
+	@Override
 	public void active() {
 		if (getDocCtrl() == null) {
 			return;

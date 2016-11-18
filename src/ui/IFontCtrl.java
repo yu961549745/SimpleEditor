@@ -6,4 +6,6 @@ public interface IFontCtrl extends  IDocAttrCtrl,IComp {
 	public void setFont(IFont font);
 
 	public IFont getFont();
+
+	void active();
 }

@@ -6,6 +6,7 @@ import cmd.ImgCmd;
 import doc.Img;
 
 public abstract class AbsImgCtrl extends AbsDocAttrCtrl implements IImgCtrl {
+	@Override
 	public void active() {
 		Img img = getImg();
 		if (img == null) {
