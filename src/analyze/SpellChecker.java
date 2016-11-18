@@ -14,7 +14,7 @@ public class SpellChecker {
 
 	public List<TextRange> check(String s) {
 		List<TextRange> rs = new ArrayList<TextRange>();
-		Pattern p = Pattern.compile("\\w+('s)*");
+		Pattern p = Pattern.compile("\\w+");
 		Matcher m = p.matcher(s);
 		while (m.find()) {
 			if (dic.get(m.group()) == null) {

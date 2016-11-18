@@ -1,5 +1,9 @@
 package ui;
 
-public class IAlignCtrl {
+import doc.IAlign;
 
+public interface IAlignCtrl extends IDocAttrCtrl, IComp {
+	public IAlign getAlign();
+
+	public void setAlign(IAlign align);
 }

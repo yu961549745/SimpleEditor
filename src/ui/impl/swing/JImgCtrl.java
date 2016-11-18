@@ -12,18 +12,17 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import ui.ImgImpl;
+import doc.Img;
+import ui.abs.AbsImgCtrl;
 
-public class JImgCtrl implements ActionListener {
-	private JDocCtrl docCtrl;
+public class JImgCtrl extends AbsImgCtrl {
+
 	private JButton button = new JButton("插入图片");
 	private JFileChooser chooser = new JFileChooser();
 
-	public JImgCtrl(JDocCtrl docCtrl) {
-		this.docCtrl = docCtrl;
-		button.addActionListener(this);
-		chooser.setFileFilter(new FileFilter() {
+	public JImgCtrl() {
 
+		chooser.setFileFilter(new FileFilter() {
 			@Override
 			public String getDescription() {
 				return "图片";
@@ -36,15 +35,29 @@ public class JImgCtrl implements ActionListener {
 								"(?i).*?\\.(jpg|bmp|gif|png|wbmp|jpeg)");
 			}
 		});
+
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				active();
+			}
+		});
 	}
 
-	public ImgImpl getImage() {
-		int returnVal = chooser.showOpenDialog(docCtrl.getComponent());
+	public Component getComponent() {
+		return button;
+	}
+
+	@Override
+	public Img getImg() {
+		int returnVal = chooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				ImageIcon icon = new ImageIcon(ImageIO.read(chooser
 						.getSelectedFile()));
-				return new JImgImpl(icon);
+				JImg img = new JImg();
+				img.setIcon(icon);
+				return img;
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "无法读取 "
 						+ chooser.getSelectedFile().getName());
@@ -54,11 +67,7 @@ public class JImgCtrl implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		docCtrl.insert(getImage());
-	}
-
-	public Component getComponent() {
+	public Object getImpl() {
 		return button;
 	}
 

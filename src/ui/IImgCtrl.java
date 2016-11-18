@@ -1,4 +1,7 @@
 package ui;
 
-public interface IImgCtrl {
+import doc.Img;
+
+public interface IImgCtrl extends  IDocAttrCtrl,IComp{
+	public Img getImg();
 }

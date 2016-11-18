@@ -1,6 +1,5 @@
 package ui.impl.swing;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -9,10 +8,12 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import ui.IAlignCtrl;
+import ui.abs.AbsDocAttrCtrl;
+import ui.impl.swing.comp.ImgButton;
 import doc.IAlign;
 
-public class JAlignCtrl {
-	private JDocCtrl docCtrl;
+public class JAlignCtrl extends AbsDocAttrCtrl implements IAlignCtrl {
 
 	private JPanel panel = new JPanel();
 	private JButton LButton = new ImgButton("L.gif");
@@ -23,8 +24,7 @@ public class JAlignCtrl {
 
 	private AlignListener listener = new AlignListener();
 
-	public JAlignCtrl(JDocCtrl docCtrl) {
-		this.docCtrl = docCtrl;
+	public JAlignCtrl() {
 
 		btnMap.put(IAlign.LEFT, LButton);
 		btnMap.put(IAlign.CENTER, CButton);
@@ -40,10 +40,6 @@ public class JAlignCtrl {
 
 		setAlign(IAlign.LEFT);
 
-	}
-
-	public Component getComponent() {
-		return panel;
 	}
 
 	private IAlign align = IAlign.LEFT;
@@ -74,5 +70,10 @@ public class JAlignCtrl {
 			}
 			docCtrl.setAlign(align);
 		}
+	}
+
+	@Override
+	public Object getImpl() {
+		return panel;
 	}
 }

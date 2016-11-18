@@ -1,4 +1,4 @@
-package ui.impl.swing;
+package ui.impl.swing.comp;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

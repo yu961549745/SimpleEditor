@@ -4,24 +4,21 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
+import ui.abs.AbsFontCtrl;
+import ui.impl.swing.comp.ImgButton;
+import ui.impl.swing.comp.JAutoCompleteComboBox;
 import doc.IFont;
 import env.FontProviderFactory;
 
-public class JFontCtrl {
-	private JDocCtrl docCtrl;
+public class JFontCtrl extends AbsFontCtrl {
 
 	private JPanel panel = new JPanel();
 
@@ -29,7 +26,7 @@ public class JFontCtrl {
 	private JComboBox<String> fonts = new JAutoCompleteComboBox<String>();
 
 	private JLabel sizeLabel = new JLabel("大小");
-	private JTextField size = new JTextField(3);
+	private JComboBox<String> size = new JAutoCompleteComboBox<String>();
 
 	private JPanel color = new JPanel();
 
@@ -37,13 +34,11 @@ public class JFontCtrl {
 	private ImgButton iBtn = new ImgButton("I.gif");
 	private ImgButton uBtn = new ImgButton("U.gif");
 
-	private Map<ImgButton, Integer> btnMap = new HashMap<ImgButton, Integer>();
 	private StyleListener styleListener = new StyleListener();
 
 	private IFont font = new IFont();
 
-	public JFontCtrl(JDocCtrl docCtrl) {
-		this.docCtrl = docCtrl;
+	public JFontCtrl() {
 
 		String[] fontNames = FontProviderFactory.getFontNameProvider()
 				.getAllFonts();
@@ -53,22 +48,23 @@ public class JFontCtrl {
 		panel.add(fontLabel);
 		panel.add(fonts);
 		fonts.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				font.setName((String) fonts.getSelectedItem());
-
-				update();
+				active();
 			}
 		});
 
 		panel.add(sizeLabel);
 		panel.add(size);
-		size.addFocusListener(new FocusAdapter() {
+		for (int k = 10; k <= 100; k++) {
+			size.addItem(String.valueOf(k));
+		}
+		size.addActionListener(new ActionListener() {
 			@Override
-			public void focusLost(FocusEvent e) {
-				font.setSize(Integer.valueOf(size.getText()));
-				update();
+			public void actionPerformed(ActionEvent e) {
+				font.setSize(Integer.valueOf((String) size.getSelectedItem()));
+				active();
 			}
 		});
 
@@ -79,8 +75,7 @@ public class JFontCtrl {
 			public void mouseClicked(MouseEvent e) {
 				setColor(JColorChooser.showDialog(panel, "选择颜色",
 						new Color(font.getColor())).getRGB());
-
-				update();
+				active();
 			}
 		});
 
@@ -88,24 +83,20 @@ public class JFontCtrl {
 		panel.add(iBtn);
 		panel.add(uBtn);
 
-		btnMap.put(bBtn, IFont.BOLD);
-		btnMap.put(iBtn, IFont.ITALIC);
-		btnMap.put(uBtn, IFont.UNDER);
-
-		for (ImgButton b : btnMap.keySet()) {
-			b.addActionListener(styleListener);
-		}
+		bBtn.addActionListener(styleListener);
+		iBtn.addActionListener(styleListener);
+		uBtn.addActionListener(styleListener);
 
 		setFont(font);
 	}
 
 	public void setFont(IFont f) {
 		fonts.setSelectedItem(f.getName());
-		size.setText(String.valueOf(f.getSize()));
+		size.setSelectedItem(String.valueOf(f.getSize()));
 		color.setBackground(new Color(f.getColor()));
-		for (ImgButton b : btnMap.keySet()) {
-			b.setSelected((f.getStyle() & btnMap.get(b)) > 0);
-		}
+		bBtn.setSelected(f.isBold());
+		iBtn.setSelected(f.isItalic());
+		uBtn.setSelected(f.isUnderline());
 		font = f;
 	}
 
@@ -116,8 +107,7 @@ public class JFontCtrl {
 			ImgButton btn = (ImgButton) e.getSource();
 			btn.changeState();
 			updateFontStyle();
-
-			update();
+			active();
 		}
 
 	}
@@ -128,13 +118,9 @@ public class JFontCtrl {
 	}
 
 	private void updateFontStyle() {
-		int s = 0;
-		for (ImgButton b : btnMap.keySet()) {
-			if (b.isSelected()) {
-				s |= btnMap.get(b);
-			}
-		}
-		font.setStyle(s);
+		font.setBold(uBtn.isSelected());
+		font.setItalic(iBtn.isSelected());
+		font.setUnderline(uBtn.isSelected());
 	}
 
 	public Component getComponent() {
@@ -145,9 +131,9 @@ public class JFontCtrl {
 		return font;
 	}
 
-	public void update() {
-		System.out.println(font);
-		docCtrl.setFont(font);
+	@Override
+	public Object getImpl() {
+		return panel;
 	}
 
 }

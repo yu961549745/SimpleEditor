@@ -1,6 +1,11 @@
 package ui;
-/**
- * 抽象编辑器窗口
- */
-public interface IFrame {
+
+public interface IFrame  extends IComp{
+	public IDocCtrl getDocCtrl();
+
+	public IFontCtrl getFontCtrl();
+
+	public IAlignCtrl getAlignCtrl();
+
+	public IImgCtrl getImgCtrl();
 }

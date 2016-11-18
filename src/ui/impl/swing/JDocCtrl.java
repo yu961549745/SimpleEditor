@@ -1,38 +1,38 @@
 package ui.impl.swing;
 
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.text.Caret;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import doc.IAlign;
 import doc.IFont;
 import doc.Img;
-import doc.TextRange;
-import ui.IDocCtrl;
-import ui.ImgImpl;
+import ui.abs.AbsDocCtrl;
 
-public class JDocCtrl implements IDocCtrl {
+public class JDocCtrl extends AbsDocCtrl {
 	private JTextPane textPane = new JTextPane();
+	private JScrollPane scrollPane = new JScrollPane(textPane);
 
-	public Img insert(ImgImpl img) {
-		JImgImpl jimg = (JImgImpl) img;
-		textPane.insertIcon(jimg.getImg());
-		Img docImg = new Img();
-		docImg.setImg(img);
-		docImg.setPos(textPane.getCaretPosition());
+	public JDocCtrl() {
+		textPane.setPreferredSize(new Dimension(500, 500));
 
-		textPane.getCaret().setVisible(true);
-		textPane.getCaret().setSelectionVisible(true);
-		return docImg;
-	}
-
-	public TextRange getSelected() {
-		Caret c = textPane.getCaret();
-		return new TextRange(c.getMark(), c.getDot());
+		textPane.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) {
+					undo();
+				} else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Y) {
+					redo();
+				}
+			}
+		});
 	}
 
 	public void setFont(IFont font) {
@@ -42,7 +42,7 @@ public class JDocCtrl implements IDocCtrl {
 		StyleConstants.setForeground(attr, new Color(font.getColor()));
 		StyleConstants.setBold(attr, font.isBold());
 		StyleConstants.setItalic(attr, font.isItalic());
-		StyleConstants.setUnderline(attr, font.isUnder());
+		StyleConstants.setUnderline(attr, font.isUnderline());
 		textPane.setCharacterAttributes(attr, false);
 	}
 
@@ -60,8 +60,77 @@ public class JDocCtrl implements IDocCtrl {
 		textPane.setParagraphAttributes(attr, false);
 	}
 
-	public Component getComponent() {
-		return textPane;
+	public IAlign getAlign() {
+		Object obj = textPane.getParagraphAttributes().getAttribute(
+				StyleConstants.Alignment);
+		if (obj == null) {
+			return IAlign.LEFT;
+		}
+		int key = (Integer) obj;
+		switch (key) {
+		case StyleConstants.ALIGN_LEFT:
+			return IAlign.LEFT;
+		case StyleConstants.ALIGN_CENTER:
+			return IAlign.CENTER;
+		case StyleConstants.ALIGN_RIGHT:
+			return IAlign.RIGHT;
+		default:
+			return null;
+		}
+	}
+
+	public IFont getFont() {
+		IFont f = new IFont();
+		Object obj;
+		obj = textPane.getCharacterAttributes().getAttribute(
+				StyleConstants.FontFamily);
+		if (obj != null) {
+			f.setName((String) obj);
+		}
+		obj = textPane.getCharacterAttributes().getAttribute(
+				StyleConstants.FontSize);
+		if (obj != null) {
+			f.setSize((Integer) obj);
+		}
+		obj = textPane.getCharacterAttributes().getAttribute(
+				StyleConstants.Foreground);
+		if (obj != null) {
+			f.setColor(((Color) obj).getRGB());
+		}
+		f.setBold(getBooleanAttributes(StyleConstants.Bold));
+		f.setItalic(getBooleanAttributes(StyleConstants.Italic));
+		f.setUnderline(getBooleanAttributes(StyleConstants.Underline));
+		return f;
+	}
+
+	private boolean getBooleanAttributes(Object key) {
+		Object obj = textPane.getCharacterAttributes().getAttribute(key);
+		if (obj == null) {
+			return false;
+		}
+		return (Boolean) obj;
+	}
+
+	@Override
+	public void insertImg(Img img) {
+		JImg image = (JImg) img;
+		textPane.insertIcon(image.getIcon());
+		image.setPos(textPane.getCaretPosition() - 1);
+	}
+
+	@Override
+	public void removeImg(Img img) {
+		JImg image = (JImg) img;
+		try {
+			textPane.getDocument().remove(image.getPos(), 1);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Object getImpl() {
+		return scrollPane;
 	}
 
 }
