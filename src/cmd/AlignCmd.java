@@ -1,5 +1,6 @@
 package cmd;
 
+import align_strategy.AlignStrategyFactory;
 import ui.IDocCtrl;
 import doc.IAlign;
 import doc.TextRange;
@@ -19,13 +20,13 @@ public class AlignCmd extends AbsCmd {
 	@Override
 	public void exec() {
 		getDocCtrl().setSelected(range);
-		getDocCtrl().setAlign(dst);
+		AlignStrategyFactory.getAlignStrategy(dst).setAlign(getDocCtrl());
 	}
 
 	@Override
 	public void undo() {
 		getDocCtrl().setSelected(range);
-		getDocCtrl().setAlign(src);
+		AlignStrategyFactory.getAlignStrategy(src).setAlign(getDocCtrl());
 	}
 
 }
