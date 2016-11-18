@@ -13,7 +13,8 @@ public abstract class AbsUtils extends AbsDocAttrCtrl implements IUtils {
 	@Override
 	public void spellCheck() {
 		List<TextRange> ranges = spellChecker.check(getDocCtrl()
-				.getTextString());
+				.getTextString().replace(System.getProperty("line.separator"),
+						"\n"));
 		TextRange oldRange = docCtrl.getSelected();
 		for (TextRange r : ranges) {
 			docCtrl.setSelected(r);
